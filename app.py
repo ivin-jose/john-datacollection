@@ -6,12 +6,13 @@ import os
 
 app = Flask(__name__)
 
-# Mysql DataBase 
-app.config['MYSQL_HOST'] = 'mysql.railway.internal'
-app.config['MYSQL_PORT'] = 3306
+# MySQL Database configuration (direct assignment)
+app.config['MYSQL_HOST'] = 'shinkansen.proxy.rlwy.net'
+app.config['MYSQL_PORT'] = 17989
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'OMAlieQPiJHnlbYwndBrcNOWIZWDdIfq'
 app.config['MYSQL_DB'] = 'railway'
+
 
 mysql = MySQL(app)
 
