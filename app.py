@@ -131,7 +131,7 @@ def add_data():
 
         except Exception as e:
             mysql.connection.rollback()
-    		return render_template('index.html', message=e)
+            return render_template('index.html', message=e)
             
 
 
