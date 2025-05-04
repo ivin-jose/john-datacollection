@@ -6,11 +6,11 @@ import os
 
 app = Flask(__name__)
 
-# MySQL Database configuration (direct assignment)
-app.config['MYSQL_HOST'] = 'shinkansen.proxy.rlwy.net'
-app.config['MYSQL_PORT'] = 17989
+# MySQL Database Configuration
+app.config['MYSQL_HOST'] = 'centerbeam.proxy.rlwy.net'
+app.config['MYSQL_PORT'] = 17390
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'OMAlieQPiJHnlbYwndBrcNOWIZWDdIfq'
+app.config['MYSQL_PASSWORD'] = 'pLBBUhSWjtMhnDkngBdXHufGuOvOatYA'
 app.config['MYSQL_DB'] = 'railway'
 
 
@@ -106,7 +106,7 @@ def add_data():
             # 1. Insert into datas table
             now = datetime.now()
             cursor.execute(
-                "INSERT INTO datas (user_id, date_time, state, district, spot) VALUES (%s, %s, %s, %s, %s)",
+                "INSERT INTO data (user_id, date_time, state, district, spot) VALUES (%s, %s, %s, %s, %s)",
                 (str(session['userid']), now, state, district, spot)
             )
             data_id = cursor.lastrowid  # Get the inserted data_id
@@ -114,7 +114,7 @@ def add_data():
             # 2. Insert into accommodation table
             for name, phone in zip(stay_names, stay_phones):
                 cursor.execute(
-                    "INSERT INTO accommodation (data_id, name, phone_number) VALUES (%s, %s, %s)",
+                    "INSERT INTO accommodation (data_id, accommodation_name, phone_number) VALUES (%s, %s, %s)",
                     (data_id, name, phone)
                 )
 
