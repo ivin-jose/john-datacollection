@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tourist Spot Entry</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    form {
+      max-width: 600px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+    select, input[type="text"], input[type="file"], input[type="number"], input[type="tel"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+    .stay-entry {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-top: 15px;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+    }
+    .add-btn {
+      margin-top: 10px;
+      display: inline-block;
+      padding: 8px 12px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .add-btn:hover {
+      background-color: #0056b3;
+    }
+    input[type="submit"] {
+      margin-top: 20px;
+      padding: 10px 20px;
+    }
+    #user {
+      text-transform: capitalize;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- <h2>Enter Tourist Spot Details</h2> -->
+  <h3>User : <span id="user">{{ session['user'] }}<br>
+  User id : {{ session['userid'] }}</span></h3>
+
+  <center>
+    <h3 style="color: green;">{{message}}</h3>
+  </center>
+
+<form method="POST" enctype="multipart/form-data" action="/add-data">
+
+    <!-- State Dropdown -->
+    <label for="state">Select State:</label>
+    <select id="state" name="state">
+      <option value="kerala">Kerala</option>
+      <option value="tamilnadu" disabled>Tamil Nadu</option>
+      <option value="karnataka" disabled>Karnataka</option>
+      <option value="maharashtra" disabled>Maharashtra</option>
+    </select>
+
+    <!-- District Dropdown -->
+    <label for="district">Select District:</label>
+    <select id="district" name="district">
+      <option value="trivandrum">Thiruvananthapuram</option>
+      <option value="kollam">Kollam</option>
+      <option value="pathanamthitta">Pathanamthitta</option>
+      <option value="alappuzha">Alappuzha</option>
+      <option value="kottayam">Kottayam</option>
+      <option value="idukki">Idukki</option>
+      <option value="ernakulam">Ernakulam</option>
+      <option value="thrissur">Thrissur</option>
+      <option value="palakkad">Palakkad</option>
+      <option value="malappuram">Malappuram</option>
+      <option value="kozhikode">Kozhikode</option>
+      <option value="wayanad">Wayanad</option>
+      <option value="kannur">Kannur</option>
+      <option value="kasaragod">Kasaragod</option>
+    </select>
+
+    <!-- Tourist Spot Name -->
+    <label for="spot">Tourist Spot Name:</label>
+    <input type="text" id="spot" name="spot" placeholder="Enter name of the spot">
+
+    <!-- Dynamic Stay Section -->
+    <div id="stayContainer">
+      <label>Place(s) to Stay & Contact:</label>
+      <div class="stay-entry">
+        <input type="text" name="stay_name[]" placeholder="Stay name (hotel/homestay)" required>
+        <input type="tel" name="stay_phone[]" placeholder="Phone number" required>
+      </div>
+    </div>
+    <button type="button" class="add-btn" onclick="addStay()">+ Add More Stay</button>
+
+    <!-- Image Upload -->
+    <label for="image">Upload Image:</label>
+    <input type="file" id="image" name="image" accept="image/*">
+
+    <!-- Submit Button -->
+    <input type="submit" value="Submit">
+  </form>
+
+  <script>
+    function addStay() {
+      const container = document.getElementById("stayContainer");
+
+      const newStayDiv = document.createElement("div");
+      newStayDiv.className = "stay-entry";
+      newStayDiv.innerHTML = `
+        <input type="text" name="stay_name[]" placeholder="Stay name (hotel/homestay)" required>
+        <input type="tel" name="stay_phone[]" placeholder="Phone number" required>
+      `;
+      container.appendChild(newStayDiv);
+    }
+  </script>
+
+</body>
+</html>
