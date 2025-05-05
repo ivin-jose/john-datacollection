@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Tourist Admin</title>
   <style>
     body {
@@ -12,6 +13,7 @@
       height: 100vh;
       justify-content: center;
       align-items: center;
+      padding: 20px;
     }
 
     .login-box {
@@ -19,7 +21,9 @@
       padding: 40px 30px;
       border-radius: 10px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-      width: 350px;
+      width: 100%;
+      max-width: 400px;
+      box-sizing: border-box;
     }
 
     .login-box h2 {
@@ -42,6 +46,7 @@
       border: 1px solid #ccc;
       border-radius: 6px;
       font-size: 16px;
+      box-sizing: border-box;
     }
 
     .login-box input[type="submit"] {
@@ -66,17 +71,27 @@
       font-size: 14px;
       color: #666;
     }
+
     span {
       color: red;
+    }
+
+    @media (max-width: 480px) {
+      .login-box {
+        padding: 30px 20px;
+      }
+      .login-box h2 {
+        font-size: 22px;
+      }
     }
   </style>
 </head>
 <body>
 
   <div class="login-box">
-    <h2> Login</h2>
+    <h2>Login</h2>
     <form method="POST">
-      <label for="username">Username <span> {{ message }}</span></label>
+      <label for="username">Username <span>{{ message }}</span></label>
       <input type="text" id="username" name="username" placeholder="Enter your username" required>
 
       <label for="password">Password</label>

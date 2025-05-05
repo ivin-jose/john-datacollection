@@ -2,139 +2,156 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tourist Spot Entry</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding-top: 60px; /* Space for fixed navbar */
-    background-color: #222;
-    color: #f1f1f1;
-  }
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding-top: 60px; /* Space for fixed navbar */
+      background-color: #222;
+      color: #f1f1f1;
+    }
 
-  .navbar {
-    position: fixed;
-    top: 0;
-    width: 97%;
-    background-color: #111;
-    padding: 10px 20px;
-    z-index: 1000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.7);
-  }
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: #111;
+      padding: 10px 20px;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.7);
+    }
 
-  .navbar .user-info {
-    text-transform: capitalize;
-    color: #8BC34A;
-  }
+    .navbar .user-info {
+      text-transform: capitalize;
+      color: #8BC34A;
+    }
 
-  .navbar .logout-btn {
-    background-color: #dc3545;
-    border: none;
-    color: white;
-    padding: 15px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s;
-  }
+    .navbar .logout-btn {
+      background-color: #dc3545;
+      border: none;
+      color: white;
+      padding: 15px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+    }
 
-  .navbar .logout-btn:hover {
-    background-color: #c82333;
-  }
+    .navbar .logout-btn:hover {
+      background-color: #c82333;
+    }
 
-  form {
-    max-width: 600px;
-    margin: auto;
-    background-color: #2c2c2c;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.7);
-  }
+    form {
+      max-width: 90%;
+      margin: auto;
+      background-color: #2c2c2c;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.7);
+    }
 
-  label {
-    display: block;
-    margin-top: 15px;
-    color: #ccc;
-  }
+    label {
+      display: block;
+      margin-top: 15px;
+      color: #ccc;
+    }
 
-  select, input[type="text"], input[type="file"], input[type="tel"] {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #444;
-    border-radius: 5px;
-    background-color: #333;
-    color: #f1f1f1;
-  }
+    select, input[type="text"], input[type="file"], input[type="tel"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #444;
+      border-radius: 5px;
+      background-color: #333;
+      color: #f1f1f1;
+    }
 
-  input[type="file"] {
-    color-scheme: dark;
-  }
+    input[type="file"] {
+      color-scheme: dark;
+    }
 
-  .stay-entry {
-    border: 1px solid #444;
-    padding: 10px;
-    margin-top: 15px;
-    border-radius: 8px;
-    background-color: #2f2f2f;
-    position: relative;
-  }
+    .stay-entry {
+      border: 1px solid #444;
+      padding: 10px;
+      margin-top: 15px;
+      border-radius: 8px;
+      background-color: #2f2f2f;
+      position: relative;
+    }
 
-  .add-btn, .remove-btn {
-    margin-top: 10px;
-    display: inline-block;
-    padding: 8px 12px;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-  }
+    .add-btn, .remove-btn {
+      margin-top: 10px;
+      display: inline-block;
+      padding: 8px 12px;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
 
-  .add-btn {
-    background-color: #007bff;
-  }
+    .add-btn {
+      background-color: #007bff;
+    }
 
-  .add-btn:hover {
-    background-color: #0056b3;
-  }
+    .add-btn:hover {
+      background-color: #0056b3;
+    }
 
-  .remove-btn {
-    background-color: #dc3545;
-    margin-left: 10px;
-  }
+    .remove-btn {
+      background-color: #dc3545;
+      margin-left: 10px;
+    }
 
-  .remove-btn:hover {
-    background-color: #c82333;
-  }
+    .remove-btn:hover {
+      background-color: #c82333;
+    }
 
-  input[type="submit"] {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
+    input[type="submit"] {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
 
-  input[type="submit"]:hover {
-    background-color: #218838;
-  }
+    input[type="submit"]:hover {
+      background-color: #218838;
+    }
 
-  h3 {
-    color: #9df29d;
-  }
+    h3 {
+      color: #9df29d;
+      text-align: center;
+      margin-top: 20px;
+    }
 
-  option {
-    background-color: #333;
-    color: #f1f1f1;
-  }
-</style>
+    option {
+      background-color: #333;
+      color: #f1f1f1;
+    }
+
+    @media only screen and (max-width: 600px) {
+      .navbar {
+        padding: 10px;
+      }
+
+      form {
+        padding: 10px;
+      }
+
+      input[type="submit"] {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -143,8 +160,7 @@
     <div class="user-info">
         ID: {{ session['userid'] }} | User: {{ session['user'] }}
     </div>
-      <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
-  
+    <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
   </div>
 
   <center>
