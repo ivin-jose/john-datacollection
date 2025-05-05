@@ -32,7 +32,7 @@ app.secret_key = 'somethingfishy'
 cloudinary.config( 
     cloud_name = "dz2oijnjv", 
     api_key = "954271683457226", 
-    api_secret = "<your_api_secret>",  # Replace with actual secret
+    api_secret = "BCxhShdmjPoaeJ24MbRaec6Gu2I",  # Replace with actual secret
     secure=True
 )
 
