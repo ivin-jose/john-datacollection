@@ -4,6 +4,10 @@ from flask_mysqldb import MySQL
 from werkzeug.utils import secure_filename
 import os
 
+import cloudinary
+import cloudinary.uploader
+
+
 app = Flask(__name__)
 
 # MySQL Database Configuration
@@ -20,6 +24,19 @@ mysql = MySQL(app)
 UPLOAD_FOLDER = 'static/images'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = 'somethingfishy'
+
+# --------------------------------------------------------------------------------------------------
+
+
+
+cloudinary.config( 
+    cloud_name = "dz2oijnjv", 
+    api_key = "954271683457226", 
+    api_secret = "<your_api_secret>",  # Replace with actual secret
+    secure=True
+)
+
+
 
 # --------------------------------------------------------------------------------------------------
 
@@ -79,13 +96,17 @@ def add_data():
         stay_names = request.form.getlist("stay_name[]")
         stay_phones = request.form.getlist("stay_phone[]")
 
+
         image_file = request.files.get("image")
         image_filename = None
+
         if image_file and image_file.filename != "":
-            filename = secure_filename(image_file.filename)
-            image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            image_file.save(image_path)
-            image_filename = filename
+            try:
+                upload_result = cloudinary.uploader.upload(image_file)
+                image_filename = upload_result['secure_url']  # Store this in DB
+            except Exception as e:
+                return render_template('index.html', message=f"Image upload failed: {str(e)}")
+
 
         try:
             cursor = mysql.connection.cursor()
