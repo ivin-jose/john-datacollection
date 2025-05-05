@@ -76,49 +76,33 @@ def add_data():
         district = request.form.get("district")
         spot = request.form.get("spot")
 
-
-        # Get stay names and phone numbers (as lists)
         stay_names = request.form.getlist("stay_name[]")
         stay_phones = request.form.getlist("stay_phone[]")
 
-        # Handle image upload
         image_file = request.files.get("image")
         image_filename = None
         if image_file and image_file.filename != "":
             filename = secure_filename(image_file.filename)
             image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             image_file.save(image_path)
-            image_filename = filename  # store filename if you need to save to DB
-
-        # Now you can use these values for DB insert or further processing
-        print("")
-        print("State:", state)
-        print("District:", district)
-        print("Spot:", spot)
-        print("Stay Names:", stay_names)
-        print("Stay Phones:", stay_phones)
-        print("Uploaded Image:", image_filename)
-        print("")
+            image_filename = filename
 
         try:
             cursor = mysql.connection.cursor()
 
-            # 1. Insert into datas table
             now = datetime.now()
             cursor.execute(
                 "INSERT INTO data (user_id, date_time, state, district, spot) VALUES (%s, %s, %s, %s, %s)",
                 (str(session['userid']), now, state, district, spot)
             )
-            data_id = cursor.lastrowid  # Get the inserted data_id
+            data_id = cursor.lastrowid
 
-            # 2. Insert into accommodation table
             for name, phone in zip(stay_names, stay_phones):
                 cursor.execute(
                     "INSERT INTO accommodation (data_id, accommodation_name, phone_number) VALUES (%s, %s, %s)",
                     (data_id, name, phone)
                 )
 
-            # 3. Insert into images table
             if image_filename:
                 cursor.execute(
                     "INSERT INTO images (data_id, image_path) VALUES (%s, %s)",
@@ -127,24 +111,29 @@ def add_data():
 
             mysql.connection.commit()
             cursor.close()
-            return redirect('/home')
+
+            # REDIRECT to avoid resubmission
+            return redirect(url_for('add_data', success='true'))
 
         except Exception as e:
             mysql.connection.rollback()
-            return render_template('index.html', message=e)
-            
+            return render_template('index.html', message=str(e))
 
-
-
-    return render_template('index.html', message='Data Added succfully')
+    # GET method here
+    message = None
+    if request.args.get('success') == 'true':
+        message = "Data Added ✅"
+    return render_template('index.html', message=message)
 
 
 
 # --------------------------------------------------------------------------------------------------
 
-@app.route('/logout')
+
+@app.route('/logout', methods=['GET', 'POST'])
 def logout():
-	return render_template('login.html')
+    session.clear()  # Removes all session data
+    return redirect('/login')
 
 
 if __name__ == '__main__':

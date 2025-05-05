@@ -3,77 +3,167 @@
 <head>
   <meta charset="UTF-8">
   <title>Tourist Spot Entry</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 40px;
-    }
-    form {
-      max-width: 600px;
-      margin: auto;
-    }
-    label {
-      display: block;
-      margin-top: 15px;
-    }
-    select, input[type="text"], input[type="file"], input[type="number"], input[type="tel"] {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-    }
-    .stay-entry {
-      border: 1px solid #ccc;
-      padding: 10px;
-      margin-top: 15px;
-      border-radius: 8px;
-      background-color: #f9f9f9;
-    }
-    .add-btn {
-      margin-top: 10px;
-      display: inline-block;
-      padding: 8px 12px;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-    .add-btn:hover {
-      background-color: #0056b3;
-    }
-    input[type="submit"] {
-      margin-top: 20px;
-      padding: 10px 20px;
-    }
-    #user {
-      text-transform: capitalize;
-    }
-  </style>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding-top: 60px; /* Space for fixed navbar */
+    background-color: #222;
+    color: #f1f1f1;
+  }
+
+  .navbar {
+    position: fixed;
+    top: 0;
+    width: 97%;
+    background-color: #111;
+    padding: 10px 20px;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.7);
+  }
+
+  .navbar .user-info {
+    text-transform: capitalize;
+    color: #8BC34A;
+  }
+
+  .navbar .logout-btn {
+    background-color: #dc3545;
+    border: none;
+    color: white;
+    padding: 15px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+  }
+
+  .navbar .logout-btn:hover {
+    background-color: #c82333;
+  }
+
+  form {
+    max-width: 600px;
+    margin: auto;
+    background-color: #2c2c2c;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.7);
+  }
+
+  label {
+    display: block;
+    margin-top: 15px;
+    color: #ccc;
+  }
+
+  select, input[type="text"], input[type="file"], input[type="tel"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #333;
+    color: #f1f1f1;
+  }
+
+  input[type="file"] {
+    color-scheme: dark;
+  }
+
+  .stay-entry {
+    border: 1px solid #444;
+    padding: 10px;
+    margin-top: 15px;
+    border-radius: 8px;
+    background-color: #2f2f2f;
+    position: relative;
+  }
+
+  .add-btn, .remove-btn {
+    margin-top: 10px;
+    display: inline-block;
+    padding: 8px 12px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+
+  .add-btn {
+    background-color: #007bff;
+  }
+
+  .add-btn:hover {
+    background-color: #0056b3;
+  }
+
+  .remove-btn {
+    background-color: #dc3545;
+    margin-left: 10px;
+  }
+
+  .remove-btn:hover {
+    background-color: #c82333;
+  }
+
+  input[type="submit"] {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #218838;
+  }
+
+  h3 {
+    color: #9df29d;
+  }
+
+  option {
+    background-color: #333;
+    color: #f1f1f1;
+  }
+</style>
 </head>
 <body>
 
-  <!-- <h2>Enter Tourist Spot Details</h2> -->
-  <h3>User : <span id="user">{{ session['user'] }}<br>
-  User id : {{ session['userid'] }}</span></h3>
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="user-info">
+        ID: {{ session['userid'] }} | User: {{ session['user'] }}
+    </div>
+      <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+  
+  </div>
 
   <center>
-    <h3 style="color: green;">{{message}}</h3>
+    <h3 style="color: green;">{{ message }}</h3>
   </center>
 
-<form method="POST" enctype="multipart/form-data" action="/add-data">
-
-    <!-- State Dropdown -->
+  <form id="touristForm" method="POST" enctype="multipart/form-data" action="/add-data" onsubmit="return validateForm()">
+    <!-- Form fields (same as your original) -->
     <label for="state">Select State:</label>
-    <select id="state" name="state">
+    <select id="state" name="state" required>
       <option value="kerala">Kerala</option>
       <option value="tamilnadu" disabled>Tamil Nadu</option>
       <option value="karnataka" disabled>Karnataka</option>
       <option value="maharashtra" disabled>Maharashtra</option>
     </select>
 
-    <!-- District Dropdown -->
     <label for="district">Select District:</label>
-    <select id="district" name="district">
+    <select id="district" name="district" required>
+      <option value="">Select District</option>
       <option value="trivandrum">Thiruvananthapuram</option>
       <option value="kollam">Kollam</option>
       <option value="pathanamthitta">Pathanamthitta</option>
@@ -90,41 +180,52 @@
       <option value="kasaragod">Kasaragod</option>
     </select>
 
-    <!-- Tourist Spot Name -->
     <label for="spot">Tourist Spot Name:</label>
-    <input type="text" id="spot" name="spot" placeholder="Enter name of the spot">
+    <input type="text" id="spot" name="spot" placeholder="Enter name of the spot" required>
 
-    <!-- Dynamic Stay Section -->
     <div id="stayContainer">
       <label>Place(s) to Stay & Contact:</label>
       <div class="stay-entry">
         <input type="text" name="stay_name[]" placeholder="Stay name (hotel/homestay)" required>
-        <input type="tel" name="stay_phone[]" placeholder="Phone number" required>
+        <input type="tel" name="stay_phone[]" placeholder="Phone number" pattern="[0-9]{10}" title="Phone number must be 10 digits" required>
       </div>
     </div>
     <button type="button" class="add-btn" onclick="addStay()">+ Add More Stay</button>
 
-    <!-- Image Upload -->
     <label for="image">Upload Image:</label>
-    <input type="file" id="image" name="image" accept="image/*">
+    <input type="file" id="image" name="image" accept="image/*" required>
 
-    <!-- Submit Button -->
     <input type="submit" value="Submit">
   </form>
 
   <script>
     function addStay() {
       const container = document.getElementById("stayContainer");
-
       const newStayDiv = document.createElement("div");
       newStayDiv.className = "stay-entry";
       newStayDiv.innerHTML = `
         <input type="text" name="stay_name[]" placeholder="Stay name (hotel/homestay)" required>
-        <input type="tel" name="stay_phone[]" placeholder="Phone number" required>
+        <input type="tel" name="stay_phone[]" placeholder="Phone number" pattern="[0-9]{10}" title="Phone number must be 10 digits" required>
+        <button type="button" class="remove-btn" onclick="removeStay(this)">Remove</button>
       `;
       container.appendChild(newStayDiv);
     }
-  </script>
 
+    function removeStay(button) {
+      button.parentElement.remove();
+    }
+
+    function validateForm() {
+      const form = document.getElementById("touristForm");
+      if (!form.checkValidity()) {
+        return false;
+      }
+      const message = "{{ message }}";
+      if (message && message.includes("Data Added")) {
+        setTimeout(() => form.reset(), 200);
+      }
+      return true;
+    }
+  </script>
 </body>
 </html>
