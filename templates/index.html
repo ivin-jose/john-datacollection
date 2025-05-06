@@ -245,3 +245,13 @@
   </script>
 </body>
 </html>
+
+<br></br>
+
+<center>
+{% if session['userid'] == 1 or session['userid'] == 2 %}
+    <a href="{{ url_for('datas') }}">View Datas</a>
+{% endif %}
+<br></br>
+
+</center>

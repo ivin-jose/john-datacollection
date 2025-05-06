@@ -146,6 +146,27 @@ def add_data():
         message = "Data Added ✅"
     return render_template('index.html', message=message)
 
+#-------------------------------------------------------------------------------------------------
+@app.route('/datas', methods=['GET', 'POST'])
+def datas():
+    try:
+        cursor = mysql.connection.cursor()
+        query = """
+            SELECT data.*, accommodation.*, images.*, login.username
+            FROM data
+            LEFT JOIN accommodation ON data.data_id = accommodation.data_id
+            LEFT JOIN images ON data.data_id = images.data_id
+            LEFT JOIN login ON data.user_id = login.user_id;
+        """
+        cursor.execute(query)
+        result = cursor.fetchall()
+        cursor.close()
+        return render_template('datas.html', data=result)
+    except Exception as e:
+        return f"An error occurred: {e}"
+
+
+
 
 
 # --------------------------------------------------------------------------------------------------
